@@ -74,8 +74,8 @@ $hal->config['theme'] = array(
 /**
 * Set database(s).
 */
-$hal->config['username'] = "thelinco_ci_admi";
-$hal->config['password'] = "kl4ddk4k4";
+$hal->config['username'] = "xxxxxxxxx";
+$hal->config['password'] = "xxxxxxxxx";
 $hal->config['dsn'] = 'mysql:host=localhost;dbname=thelinco_hal'; 
 
 /**
