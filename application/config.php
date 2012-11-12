@@ -28,12 +28,14 @@ $hal->config['base_url'] = null;
  * Define session name
  */
 $hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$hal->config['session_key']  = 'hal';
+
 
 /**
  * Define server timezone
- */
-/*$hal->config['timezone'] = 'Europe/Stockholm';
 */
+$hal->config['timezone'] = 'Europe/Stockholm';
+
 
 /**
  * Define internal character encoding
@@ -58,7 +60,7 @@ $hal->config['language'] = 'en';
 $hal->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'IndexController'),
   'developer' => array('enabled' => true,'class' => 'DeveloperController'),
-  'test' => array('enabled' => true,'class' => 'TestController')
+  'guestbook' => array('enabled' => true,'class' => 'GuestbookController')
 );
 
 /**
@@ -68,3 +70,19 @@ $hal->config['theme'] = array(
   // The name of the theme in the theme directory
   'name'    => 'default', 
 );
+
+/**
+* Set database(s).
+*/
+$hal->config['username'] = "thelinco_ci_admi";
+$hal->config['password'] = "kl4ddk4k4";
+$hal->config['dsn'] = 'mysql:host=localhost;dbname=thelinco_hal'; 
+
+/**
+ * Set what to show as debug or developer information in the get_debug() theme helper.
+ */
+$hal->config['debug']['hal'] = false;
+$hal->config['debug']['session'] = false;
+$hal->config['debug']['timer'] = true;
+$hal->config['debug']['db-num-queries'] = true;
+$hal->config['debug']['db-queries'] = true;

@@ -36,3 +36,18 @@ function autoload($aClassName) {
 spl_autoload_register('autoload');
 
 
+/**
+ * Helper, wrap html_entites with correct character encoding
+ */
+function htmlent($str, $flags = ENT_COMPAT) {
+  return htmlentities($str, $flags, Hal::Instance()->config['character_encoding']);
+}
+
+/**
+* Set a default exception handler and enable logging in it.
+*/
+function exception_handler($exception) {
+  echo "HAL: Uncaught exception: <p>" . $e->getMessage() . "</p><pre>" . $e->getTraceAsString(), "</pre>";
+}
+set_exception_handler('exception_handler');
+
