@@ -8,7 +8,7 @@
  */
 $hal->data['header'] = '';
 $hal->data['footer'] = <<<EOD
-<p>&copy; HAL by Tina Logan based on &copy; Lydia by Mikael Roos (mos@dbwebb.se)</p>
+<p>HAL by Tina Logan based on &copy; Lydia by Mikael Roos (mos@dbwebb.se)</p>
 thelincolncircus.com | tina[a]thelincolncircus.com 
           
           

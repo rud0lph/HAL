@@ -4,28 +4,49 @@
  * This file is included right before the themes own functions.php
  */
  
+
 /**
-* Print debuginformation from the framework.
-*/
+ * Print debuginformation from the framework.
+ */
 function get_debug() {
+  // Only if debug is wanted.
   $hal = Hal::Instance();  
+  if(empty($hal->config['debug'])) {
+    return;
+  }
+  
+  // Get the debug output
   $html = null;
   if(isset($hal->config['debug']['db-num-queries']) && $hal->config['debug']['db-num-queries'] && isset($hal->db)) {
-    $html .= "<p>Database made " . $hal->db->GetNumQueries() . " queries.</p>";
+    $flash = $hal->session->GetFlash('database_numQueries');
+    $flash = $flash ? "$flash + " : null;
+    $html .= "<p>Database made $flash" . $hal->db->GetNumQueries() . " queries.</p>";
   }    
   if(isset($hal->config['debug']['db-queries']) && $hal->config['debug']['db-queries'] && isset($hal->db)) {
-    $html .= "<p>Database made the following queries.</p><pre>" . implode('<br/><br/>', $hal->db->GetQueries()) . "</pre>";
+    $flash = $hal->session->GetFlash('database_queries');
+    $queries = $hal->db->GetQueries();
+    if($flash) {
+      $queries = array_merge($flash, $queries);
+    }
+    $html .= "<p>Database made the following queries.</p><pre>" . implode('<br/><br/>', $queries) . "</pre>";
   }    
-  if(isset($hal->config['debug']['hal']) && $hal->config['debug']['hal']) {
+  if(isset($hal->config['debug']['timer']) && $hal->config['debug']['timer']) {
+    $html .= "<p>Page was loaded in " . round(microtime(true) - $hal->timer['first'], 5)*1000 . " msecs.</p>";
+  }    
+  if(isset($hal->config['debug']['haldia']) && $hal->config['debug']['hal']) {
     $html .= "<hr><h3>Debuginformation</h3><p>The content of Hal:</p><pre>" . htmlent(print_r($hal, true)) . "</pre>";
+  }    
+  if(isset($hal->config['debug']['session']) && $hal->config['debug']['session']) {
+    $html .= "<hr><h3>SESSION</h3><p>The content of Hal->session:</p><pre>" . htmlent(print_r($hal->session, true)) . "</pre>";
+    $html .= "<p>The content of \$_SESSION:</p><pre>" . htmlent(print_r($_SESSION, true)) . "</pre>";
   }    
   return $html;
 }
 
 
 /**
-* Get messages stored in flash-session.
-*/
+ * Get messages stored in flash-session.
+ */
 function get_messages_from_session() {
   $messages = Hal::Instance()->session->GetMessages();
   $html = null;
@@ -40,12 +61,58 @@ function get_messages_from_session() {
 }
 
 
+/**
+ * Login menu. Creates a menu which reflects if user is logged in or not.
+ */
+function login_menu() {
+  $hal = Hal::Instance();
+  if($hal->user['isAuthenticated']) {
+    $items = "<a href='" . create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $hal->user['acronym'] . "</a> ";
+    if($hal->user['hasRoleAdministrator']) {
+      $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
+    }
+    $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
+  } else {
+    $items = "<a href='" . create_url('user/login') . "'>login</a> ";
+  }
+  return "<nav id='login-menu'>$items</nav>";
+}
+
+
+/**
+ * Get a gravatar based on the user's email.
+ */
+function get_gravatar($size=null) {
+  return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim(Hal::Instance()->user['email']))) . '.jpg?r=pg&amp;d=wavatar&amp;' . ($size ? "s=$size" : null);
+}
+
 
 /**
  * Prepend the base_url.
  */
-function base_url($url) {
+function base_url($url=null) {
   return Hal::Instance()->request->base_url . trim($url, '/');
+}
+
+
+/**
+ * Create a url to an internal resource.
+ *
+ * @param string the whole url or the controller. Leave empty for current controller.
+ * @param string the method when specifying controller as first argument, else leave empty.
+ * @param string the extra arguments to the method, leave empty if not using method.
+ */
+function create_url($urlOrController=null, $method=null, $arguments=null) {
+  return Hal::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
+}
+
+
+/**
+ * Prepend the theme_url, which is the url to the current theme directory.
+ */
+function theme_url($url) {
+  $hal = Hal::Instance();
+  return "{$hal->request->base_url}themes/{$hal->config['theme']['name']}/{$url}";
 }
 
 
@@ -56,11 +123,10 @@ function current_url() {
   return Hal::Instance()->request->current_url;
 }
 
+
 /**
-* Render all views.
-*/
+ * Render all views.
+ */
 function render_views() {
   return Hal::Instance()->views->Render();
 }
-
-
