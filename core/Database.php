@@ -44,11 +44,16 @@ class Database {
     * Execute a select-query with arguments and return the resultset.
     */
   public function ExecuteSelectQueryAndFetchAll($query, $params=array()){
-    $this->stmt = $this->db->prepare($query);
-    self::$queries[] = $query; 
-    self::$numQueries++;
-    $this->stmt->execute($params);
-    return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+		$this->stmt = $this->db->prepare($query);
+    	self::$queries[] = $query; 
+    	self::$numQueries++;
+    	$this->stmt->execute($params);
+    	return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+	} catch(Exception $e) {
+     // echo $e;
+      return null;
+  	}
   }
 
 
@@ -56,10 +61,11 @@ class Database {
    * Execute a SQL-query and ignore the resultset.
    */
   public function ExecuteQuery($query, $params = array()) {
-	$this->stmt = $this->db->prepare($query);
-	self::$queries[] = $query; 
-    self::$numQueries++;
-    return $this->stmt->execute($params);
+	
+		$this->stmt = $this->db->prepare($query);
+		self::$queries[] = $query; 
+    	self::$numQueries++;
+		return $this->stmt->execute($params);
   }
 
   /**

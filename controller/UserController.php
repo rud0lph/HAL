@@ -38,7 +38,7 @@ class UserController extends Controller implements IController {
     }
 
     $this->views->SetTitle('User Profile')
-                ->AddInclude(HAL_INSTALL_PATH. '/view/profile.tpl.php', array(
+                ->AddInclude(HAL_INSTALL_PATH. '/view/userprofile.tpl.php', array(
                   'is_authenticated'=>$this->user['isAuthenticated'], 
                   'user'=>$this->user,
                   'profile_form'=>$form->GetHTML(),
@@ -82,7 +82,7 @@ class UserController extends Controller implements IController {
       $this->RedirectToController('login');
     }
     $this->views->SetTitle('Login')
-                ->AddInclude(HAL_INSTALL_PATH . '/view/login.tpl.php', array(
+                ->AddInclude(HAL_INSTALL_PATH . '/view/userlogin.tpl.php', array(
                   'login_form' => $form,
                   'allow_create_user' => Hal::Instance()->config['create_new_users'],
                   'create_user_url' => $this->CreateUrl(null, 'create'),
@@ -122,7 +122,7 @@ class UserController extends Controller implements IController {
       $this->RedirectToController('Create');
     }
     $this->views->SetTitle('Create user')
-                ->AddInclude(HAL_INSTALL_PATH. '/view/create.tpl.php', array('form' => $form->GetHTML()));     
+                ->AddInclude(HAL_INSTALL_PATH. '/view/usercreate.tpl.php', array('form' => $form->GetHTML()));     
   }
   
 

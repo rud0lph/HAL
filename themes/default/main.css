@@ -238,12 +238,16 @@ footer {
 /**
  * Forms
  */
-input{font:inherit;}
+input,textarea{font:inherit;}
 input[readonly]{color:#666;}
 label{font-size:smaller;}
 .validation-failed{border:2px solid red;}
 .validation-message{color:red;font-size:smaller;}
 .form-action-link{font-size:smaller;}
+
+.content-edit input[type=text]{width:30em;}
+.content-edit textarea{width:40em;height:15em;}
+
 
 /**
  * User feedback message wrappers.
@@ -259,6 +263,13 @@ padding: 0.8em; margin-bottom: 1em; border: 2px solid #ddd; }
 .notice a, .warning a { color: #514721; }
 .success a         { color: #264409; }
 .info a            { color: #205791; }
+
+
+/**
+ * Misc
+ */
+.smaller-text{font-size:smaller;}
+.silent{color:#999;}
 
 /* Social Media Icons
 ------------------------------------------------------------ */

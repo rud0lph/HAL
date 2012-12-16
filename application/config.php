@@ -9,6 +9,8 @@
  */
 error_reporting(-1);
 ini_set('display_errors', 1);
+
+
 /**
  * Set what to show as debug or developer information in the get_debug() theme helper.
  */
@@ -56,13 +58,13 @@ $hal->config['create_new_users'] = true;
 $hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
 $hal->config['session_key']  = 'hal';
 
-/*$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
+/*$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', '__DIR__');
 $hal->config['session_key']  = 'hal';*/
 
 
 /**
- * Define server timezone
-*/
+ * Define default server timezone when displaying date and times to the user. All internals are still UTC.
+ */
 $hal->config['timezone'] = 'Europe/Stockholm';
 
 
@@ -90,8 +92,11 @@ $hal->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'IndexController'),
   'developer' => array('enabled' => true,'class' => 'DeveloperController'),
   'guestbook' => array('enabled' => true,'class' => 'GuestbookController'),
+  'content'   => array('enabled' => true,'class' => 'ContentController'),
+  'blog'      => array('enabled' => true,'class' => 'BlogController'),
+  'page'      => array('enabled' => true,'class' => 'PageController'),
   'user'      => array('enabled' => true,'class' => 'UserController'),
-  'acp'       => array('enabled' => true,'class' => 'AdminPanelController'),
+  'acp'       => array('enabled' => true,'class' => 'AdminPanelController')
 );
 
 /**

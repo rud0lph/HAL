@@ -21,7 +21,7 @@ class Controller {
    /**
     * Constructor, can be instantiated by sending in the $ly reference.
     */
-   protected function __construct($hal = null) {
+   protected function __construct($hal=null) {
     if(!$hal){
       $hal = Hal::Instance();
     }
@@ -34,10 +34,15 @@ class Controller {
     $this->user     = &$hal->user;
   }
   
-  /**
-   * Redirect to another url and store the session
-   */
-   protected function RedirectTo($urlOrController=null, $method=null) {
+
+         /**
+	 * Redirect to another url and store the session
+         *
+	 * @param $url string the relative url or the controller
+	 * @param $method string the method to use, $url is then the controller or empty for current controller
+	 * @param $arguments string the extra arguments to send to the method
+	 */
+	protected function RedirectTo($urlOrController=null, $method=null, $arguments=null) {
     $hal = Hal::Instance();
     if(isset($this->config['debug']['db-num-queries']) && $this->config['debug']['db-num-queries'] && isset($this->db)) {
       $this->session->SetFlash('database_numQueries', $this->db->GetNumQueries());
@@ -49,16 +54,18 @@ class Controller {
 	    $this->session->SetFlash('timer', $hal->timer);
     }    
     $this->session->StoreInSession();
-    header('Location: ' . $this->request->CreateUrl($urlOrController, $method));
+    header('Location: ' . $this->request->CreateUrl($urlOrController, $method, $arguments));
   }
+
 
 	/**
 	 * Redirect to a method within the current controller. Defaults to index-method. Uses RedirectTo().
 	 *
 	 * @param string method name the method, default is index method.
+	 * @param $arguments string the extra arguments to send to the method
 	 */
-  protected function RedirectToController($method=null) {
-    $this->RedirectTo($this->request->controller, $method);
+	protected function RedirectToController($method=null, $arguments=null) {
+    $this->RedirectTo($this->request->controller, $method, $arguments);
   }
 
 
@@ -67,12 +74,14 @@ class Controller {
 	 *
 	 * @param string controller name the controller or null for current controller.
 	 * @param string method name the method, default is current method.
+	 * @param $arguments string the extra arguments to send to the method
 	 */
-  protected function RedirectToControllerMethod($controller=null, $method=null) {
+	protected function RedirectToControllerMethod($controller=null, $method=null, $arguments=null) {
 	  $controller = is_null($controller) ? $this->request->controller : null;
 	  $method = is_null($method) ? $this->request->method : null;	  
-      $this->RedirectTo($this->request->CreateUrl($controller, $method));
+    $this->RedirectTo($this->request->CreateUrl($controller, $method, $arguments));
   }
+
 
 	/**
 	 * Save a message in the session. Uses $this->session->AddMessage()

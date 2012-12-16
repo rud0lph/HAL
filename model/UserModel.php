@@ -9,7 +9,7 @@ class UserModel extends Controller implements IHasSQL, ArrayAccess {
   /**
    * Properties
    */
-  public $profile = array();
+  public $profile;
 
 
   /**
@@ -20,6 +20,10 @@ class UserModel extends Controller implements IHasSQL, ArrayAccess {
     $profile = $this->session->GetAuthenticatedUser();
     $this->profile = is_null($profile) ? array() : $profile;
     $this['isAuthenticated'] = is_null($profile) ? false : true;
+    if(!$this['isAuthenticated']) {
+      $this['id'] = 1;
+      $this['acronym'] = 'anonomous';      
+    }
   }
 
 
@@ -42,12 +46,35 @@ class UserModel extends Controller implements IHasSQL, ArrayAccess {
       'drop table user'    		=> "DROP TABLE IF EXISTS User;",
       'drop table group'        => "DROP TABLE IF EXISTS Groups;",
       'drop table user2group'   => "DROP TABLE IF EXISTS User2Groups;",
-	  'create table user' 		=> "CREATE TABLE IF NOT EXISTS User (id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY , acronym VARCHAR(20), name VARCHAR(100), email VARCHAR(100), algorithm VARCHAR(250), salt VARCHAR(250), password VARCHAR(50), created timestamp NOT NULL DEFAULT '0000-00-00 00:00:00', updated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP);",
-      'create table group'      => "CREATE TABLE IF NOT EXISTS Groups (id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, acronym VARCHAR(20), name VARCHAR(100), created TIMESTAMP(8));",
-      'create table user2group' => "CREATE TABLE IF NOT EXISTS User2Groups (idUser INTEGER, idGroups INTEGER, created TIMESTAMP(8), PRIMARY KEY(idUser, idGroups));",
-      'insert into user'   		=> 'INSERT INTO User (acronym,name,email,algorithm,salt,password) VALUES (?,?,?,?,?,?);',
-      'insert into group'       => 'INSERT INTO Groups (acronym,name) VALUES (?,?);',
-      'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups) VALUES (?,?);',
+	  'create table user' 		=> 
+	  "CREATE TABLE IF NOT EXISTS User 
+	  (
+	  	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+	  	acronym VARCHAR(20), 
+	 	name VARCHAR(100), 
+	  	email VARCHAR(100), 
+	  	algorithm VARCHAR(250), 
+	  	salt VARCHAR(250), 
+	  	password VARCHAR(50), 
+	  	created TIMESTAMP DEFAULT 0, 
+	  	updated timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	
+		
+	  ) ENGINE = INNODB;",
+	
+      'create table group'      => 
+	  "CREATE TABLE IF NOT EXISTS Groups 
+	  (
+	  	id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+		acronym VARCHAR(20), 
+		name VARCHAR(100), 
+		created timestamp DEFAULT 0
+	  ) ENGINE = INNODB;",
+	  
+      'create table user2group' => "CREATE TABLE IF NOT EXISTS User2Groups (idUser INTEGER, idGroups INTEGER, created TIMESTAMP DEFAULT 0, PRIMARY KEY(idUser, idGroups)) ENGINE = INNODB;",
+      'insert into user'   		=> 'INSERT INTO User (acronym,name,email,algorithm,salt,password,created) VALUES (?,?,?,?,?,?,?);',
+      'insert into group'       => 'INSERT INTO Groups (acronym,name, created) VALUES (?,?,?);',
+      'insert into user2group'  => 'INSERT INTO User2Groups (idUser,idGroups, created) VALUES (?,?,?);',
       'check user password' 	=> 'SELECT * FROM User WHERE (acronym=? OR email=?);',
       'get group memberships'   => 'SELECT * FROM Groups AS g INNER JOIN User2Groups AS ug ON g.id=ug.idGroups WHERE ug.idUser=?;',
       'update profile'          => "UPDATE User SET name=?, email=?, updated=TIMESTAMP(8)  WHERE id=?;",
@@ -71,19 +98,20 @@ class UserModel extends Controller implements IHasSQL, ArrayAccess {
       $this->db->ExecuteQuery(self::SQL('create table user'));
       $this->db->ExecuteQuery(self::SQL('create table group'));
       $this->db->ExecuteQuery(self::SQL('create table user2group'));
+      $this->db->ExecuteQuery(self::SQL('insert into user'), array('anonomous', 'Anonomous, not authenticated', null, 'plain', null, null, null));
       $password = $this->CreatePassword('root');
-      $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+      $this->db->ExecuteQuery(self::SQL('insert into user'), array('root', 'The Administrator', 'root@dbwebb.se', $password['algorithm'], $password['salt'], $password['password'], null));
       $idRootUser = $this->db->LastInsertId();
       $password = $this->CreatePassword('doe');
-      $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password']));
+      $this->db->ExecuteQuery(self::SQL('insert into user'), array('doe', 'John/Jane Doe', 'doe@dbwebb.se', $password['algorithm'], $password['salt'], $password['password'], null));
       $idDoeUser = $this->db->LastInsertId();
-      $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group'));
+      $this->db->ExecuteQuery(self::SQL('insert into group'), array('admin', 'The Administrator Group', null));
       $idAdminGroup = $this->db->LastInsertId();
-      $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group'));
+      $this->db->ExecuteQuery(self::SQL('insert into group'), array('user', 'The User Group', null));
       $idUserGroup = $this->db->LastInsertId();
-      $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup));
-      $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup));
-      $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup));
+      $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idAdminGroup, null));
+      $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idRootUser, $idUserGroup, null));
+      $this->db->ExecuteQuery(self::SQL('insert into user2group'), array($idDoeUser, $idUserGroup, null));
       $this->AddMessage('success', 'Successfully created the database tables and created a default admin user as root:root and an ordinary user as doe:doe.');
     } catch(Exception$e) {
       die("$e<br/>Failed to open database: " . $this->config['dsn']);
