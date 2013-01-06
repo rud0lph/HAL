@@ -36,15 +36,18 @@ $hal->config['dsn'] = 'mysql:host=localhost;dbname=thelinco_hal';
  */
 $hal->config['url_type'] = 1;
 
+
 /**
  * Set a base_url to use another than the default calculated
  */
 $hal->config['base_url'] = null;
 
+
 /**
  * How to hash password of new users, choose from: plain, md5salt, md5, sha1salt, sha1.
  */
 $hal->config['hashing_algorithm'] = 'sha1salt';
+
 
 /**
  * Allow or disallow creation of new user accounts.
@@ -55,11 +58,8 @@ $hal->config['create_new_users'] = true;
 /**
  * Define session name
  */
-$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', $_SERVER["SERVER_NAME"]);
+$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', '__DIR__');
 $hal->config['session_key']  = 'hal';
-
-/*$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', '__DIR__');
-$hal->config['session_key']  = 'hal';*/
 
 
 /**
@@ -72,6 +72,7 @@ $hal->config['timezone'] = 'Europe/Stockholm';
  * Define internal character encoding
  */
 $hal->config['character_encoding'] = 'UTF-8';
+
 
 /**
  * Define language
@@ -91,6 +92,7 @@ $hal->config['language'] = 'en';
 $hal->config['controllers'] = array(
   'index'     => array('enabled' => true,'class' => 'IndexController'),
   'developer' => array('enabled' => true,'class' => 'DeveloperController'),
+  'theme'     => array('enabled' => true,'class' => 'ThemeController'),
   'guestbook' => array('enabled' => true,'class' => 'GuestbookController'),
   'content'   => array('enabled' => true,'class' => 'ContentController'),
   'blog'      => array('enabled' => true,'class' => 'BlogController'),
@@ -103,7 +105,23 @@ $hal->config['controllers'] = array(
  * Settings for the theme.
  */
 $hal->config['theme'] = array(
-  // The name of the theme in the theme directory
-  'name'    => 'default', 
+  'name'        => 'grid',        // The name of the theme in the theme directory
+  'stylesheet'  => 'style.php',   // Main stylesheet to include in template files
+  'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
+ // A list of valid theme regions
+  'regions' => array('flash','featured-first','featured-middle','featured-last',
+    'primary','sidebar','triptych-first','triptych-middle','triptych-last',
+    'footer-column-one','footer-column-two','footer-column-three','footer-column-four',
+    'footer',
+  ),
+  // Add static entries for use in the template file. 
+  'data' => array(
+    'header' => 'HAL',
+    'slogan' => 'A PHP-based MVC-inspired CMF',
+    'favicon' => 'logo_80x80.png',
+    'logo' => 'logo_80x80.png',
+    'logo_width'  => 80,
+    'logo_height' => 80,
+    'footer' => '<p>Hal by Tina Logan based on Lydia &copy; by Mikael Roos (mos@dbwebb.se)</p>',
+  ),
 );
-

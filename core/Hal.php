@@ -131,7 +131,7 @@ class Hal implements ISingleton {
     $themeUrl		= $this->request->base_url . "themes/{$themeName}";
     
     // Add stylesheet path to the $hal->data array
-    $this->data['stylesheet'] = "{$themeUrl}/style.css";
+    $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
 
     // Include the global functions.php and the functions.php that are part of the theme
     $hal = &$this;
@@ -143,8 +143,12 @@ class Hal implements ISingleton {
 
     // Extract $hal->data to own variables and handover to the template file
     extract($this->data);      
-    extract($this->views->GetData());      
-    include("{$themePath}/default.tpl.php");
+    extract($this->views->GetData());
+    if(isset($this->config['theme']['data'])) {
+      extract($this->config['theme']['data']);
+    }
+    $templateFile = (isset($this->config['theme']['template_file'])) ? $this->config['theme']['template_file'] : 'default.tpl.php';
+    include("{$themePath}/{$templateFile}");
   }
 
-} 
+}
