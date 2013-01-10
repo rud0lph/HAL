@@ -17,29 +17,13 @@ class IndexController extends Controller implements IController {
   /**
    * Implementing interface IController. All controllers must have an index action.
    */
-  public function Index() {	
-    $this->views->SetTitle('Index Controller');
-    $this->views->AddInclude(HAL_INSTALL_PATH . '/view/index.tpl.php', array('menu'=>$this->Menu()));
+  public function Index() {			
+    $modules = new ModulesModel();
+    $controllers = $modules->AvailableControllers();
+    $this->views->SetTitle('Index')
+                ->AddInclude(HAL_INSTALL_PATH . '/view/index.tpl.php', array(), 'primary')
+                ->AddInclude(HAL_INSTALL_PATH . '/view/indexsidebar.tpl.php', array('controllers'=>$controllers), 'sidebar');
   }
 
 
-  /**
-   * A menu that shows all available controllers/methods
-   */
-  private function Menu() {	
-    $items = array();
-    foreach($this->config['controllers'] as $key => $val) {
-      if($val['enabled']) {
-        $rc = new ReflectionClass($val['class']);
-        $items[] = $key;
-        $methods = $rc->getMethods(ReflectionMethod::IS_PUBLIC);
-        foreach($methods as $method) {
-          if($method->name != '__construct' && $method->name != '__destruct' && $method->name != 'Index') {
-            $items[] = "$key/" . mb_strtolower($method->name);
-          }
-        }
-      }
-    }
-    return $items;
-  }
 } 

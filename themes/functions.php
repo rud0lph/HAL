@@ -86,9 +86,13 @@ function get_messages_from_session() {
   $html = null;
   if(!empty($messages)) {
     foreach($messages as $val) {
-      $valid = array('info', 'notice', 'success', 'warning', 'error', 'alert');
+      $valid = array('info', 'success','error', 'alert');
       $class = (in_array($val['type'], $valid)) ? $val['type'] : 'info';
-      $html .= "<div class='$class'>{$val['message']}</div>\n";
+	  if($class == 'alert'){
+		  $html .= "<div class='alert'>{$val['message']}</div>\n";
+	  } else {
+      $html .= "<div class='alert alert-$class'>{$val['message']}</div>\n";
+	  }
     }
   }
   return $html;
@@ -101,15 +105,22 @@ function get_messages_from_session() {
 function login_menu() {
   $hal = Hal::Instance();
   if($hal->user['isAuthenticated']) {
-    $items = "<a href='" . create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(20) . "' alt=''> " . $hal->user['acronym'] . "</a> ";
-    if($hal->user['hasRoleAdministrator']) {
+    $items = "<a href='". create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(40) . "' class='img-polaroid'> " . $hal->user['acronym'] . "</a> ";
+    
+	if($hal->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
+	//LOGOUT BUTTON
     $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
+	//$items .= "<a href='" . create_url('user/logout') . "' class='btn btn-primary'><small>logout</small></a>";
   } else {
+    //LOGIN BUTTON
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
+	//$items = "<a href='" . create_url('user/login') . "' class='btn btn-primary' pull-right><small>login</small></a>";
   }
-  return "<nav id='login-menu'>$items</nav>";
+  
+  
+  return "$items";
 }
 
 

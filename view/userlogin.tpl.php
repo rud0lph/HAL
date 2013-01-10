@@ -1,5 +1,8 @@
-<h1>Login</h1>
-<p>Login using your acronym or email.</p>
+
+<div class="page-header">
+  <h1>Login<small> </small></h1>
+</div>
+<p>Login using your acronym or email</p>
 <?=$login_form->GetHTML(array('start'=>true))?>
   <fieldset>
     <?=$login_form['acronym']->GetHTML()?>

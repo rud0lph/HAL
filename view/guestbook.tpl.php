@@ -1,27 +1,42 @@
-<h1>Guestbook Example</h1>
-<p>Showing how to implement a guestbook in HAL. Now saving to database.</p>
+<div class="page-header">
+  <h1>Guestbook Example</h1>
+</div>
+
+<h3>Welcome to Hal's Guestbook</h3>
+<p>Showing how to implement a guestbook in HAL.</p>
 
 <form action="<?=$formAction?>" method='post'>
-  <p>
-     <label>Name: <br/>
-     <input type='text' name='newName' /></label>
-  </p>
-  <p>
-    <label>Message: <br/>
-    <textarea name='newEntry'></textarea></label>
-  </p>
-  <p>
-    <input type='submit' name='doAdd' value='Add message' />
-    <input type='submit' name='doClear' value='Clear all messages' />
-  </p>
-</form>
+	<fieldset>
+	<label>Name</label>
+    <input type="text" placeholder="Type something…" name='newName' >
+    <label>Message</label>
+    <textarea name='newEntry' rows="3"></textarea>
+ 
+ 	<p>
+    <button type="submit" name='doAdd' class="btn">Add message</button>
+    <button type="submit" name='doClear' class="btn">Clear all messages</button>
+    <button type="submit" name='doCreate' class="btn">Create database table</button>
+    </p>
+    </fieldset>
+ </form>
 
-<h2>Current messages</h2>
+<p>
+</p>
+<div class="page-header">
+  <h2>Current messages</h2>
+</div>
 
-<?php foreach($entries as $val):?>
-<div style='background-color:#f6f6f6;border:1px solid #ccc;margin-bottom:1em;padding:1em;'>
-  <p>Name: <?=htmlent($val['name'])?></p>
-  <p>Time: <?=$val['created']?></p>
+<?php
+if($entries != null) {
+ foreach($entries as $val):?>
+<div class = well>
+  <p>
+  <strong><?=htmlent($val['name'])?></strong>
+  <br /><small><?=$val['created']?></small>
+  </p>
   <p><?=htmlent($val['entry'])?></p>
 </div>
-<?php endforeach;?>
+<?php endforeach;
+}
+?>
+

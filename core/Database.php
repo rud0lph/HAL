@@ -44,7 +44,7 @@ class Database {
     * Execute a select-query with arguments and return the resultset.
     */
   public function ExecuteSelectQueryAndFetchAll($query, $params=array()){
-    try {
+	 try {
 		$this->stmt = $this->db->prepare($query);
     	self::$queries[] = $query; 
     	self::$numQueries++;
@@ -61,12 +61,12 @@ class Database {
    * Execute a SQL-query and ignore the resultset.
    */
   public function ExecuteQuery($query, $params = array()) {
-	
-		$this->stmt = $this->db->prepare($query);
-		self::$queries[] = $query; 
-    	self::$numQueries++;
-		return $this->stmt->execute($params);
+    $this->stmt = $this->db->prepare($query);
+    self::$queries[] = $query; 
+    self::$numQueries++;
+    return $this->stmt->execute($params);
   }
+
 
   /**
    * Return last insert id.

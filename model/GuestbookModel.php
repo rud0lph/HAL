@@ -4,7 +4,7 @@
 * 
 * @package HalCore
 */
-class GuestbookModel extends Controller implements IHasSQL {
+class GuestbookModel extends Controller implements IHasSQL, IModule {
 
 
   /**
@@ -22,10 +22,10 @@ class GuestbookModel extends Controller implements IHasSQL {
    */
   public static function SQL($key=null) {
     $queries = array(
-      	'create table guestbook'  => "CREATE TABLE IF NOT EXISTS Guestbook (id INTEGER PRIMARY KEY, name TEXT, entry TEXT, created DATETIME default (datetime('now')));",
-       	'insert into guestbook'   => 'INSERT INTO Guestbook (name, entry) VALUES (?, ?);',
-       	'select * from guestbook' => 'SELECT * FROM Guestbook ORDER BY id DESC;',
-		'delete from guestbook'   => 'DELETE FROM Guestbook;',
+      'create table guestbook'  => "CREATE TABLE IF NOT EXISTS Guestbook (id INTEGER PRIMARY KEY, name TEXT, entry TEXT, created DATETIME default (datetime('now')));",
+      'insert into guestbook'   => 'INSERT INTO Guestbook (name, entry) VALUES (?, ?);',
+      'select * from guestbook' => 'SELECT * FROM Guestbook ORDER BY id DESC;',
+      'delete from guestbook'   => 'DELETE FROM Guestbook;',
      );
     if(!isset($queries[$key])) {
       throw new Exception("No such SQL query, key '$key' was not found.");
@@ -35,14 +35,22 @@ class GuestbookModel extends Controller implements IHasSQL {
 
 
   /**
-   * Init the guestbook and create appropriate tables.
+   * Implementing interface IModule. Manage install/update/deinstall and equal actions.
    */
-  public function Init() {
-    try {
-	  $this->db->ExecuteQuery(self::SQL('create table guestbook'));
-      $this->session->AddMessage('notice', 'Successfully created the database tables (or left them untouched if they already existed).');
-    } catch(Exception$e) {
-      die("$e<br/>Failed to open database: " . $this->config['dsn']);
+  public function Manage($action=null) {
+    switch($action) {
+      case 'install': 
+        try {
+          $this->db->ExecuteQuery(self::SQL('create table guestbook'));
+          return array('success', 'Successfully created the database tables (or left them untouched if they already existed).');
+        } catch(Exception$e) {
+          die("$e<br/>Failed to open database: " . $this->config['database'][0]['dsn']);
+        }
+      break;
+      
+      default:
+        throw new Exception('Unsupported action for this module.');
+      break;
     }
   }
   
@@ -80,4 +88,4 @@ class GuestbookModel extends Controller implements IHasSQL {
   }
 
   
-}
+} 

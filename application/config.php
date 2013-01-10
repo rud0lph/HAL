@@ -16,16 +16,14 @@ ini_set('display_errors', 1);
  */
 $hal->config['debug']['hal'] = false;
 $hal->config['debug']['session'] = false;
-$hal->config['debug']['timer'] = true;
-$hal->config['debug']['db-num-queries'] = true;
-$hal->config['debug']['db-queries'] = true;
+$hal->config['debug']['timer'] = false;
+$hal->config['debug']['db-num-queries'] = false;
+$hal->config['debug']['db-queries'] = false;
+
 /**
 * Set database(s).
 */
-$hal->config['username'] = "thelinco_ci_admi";
-$hal->config['password'] = "kl4ddk4k4";
-$hal->config['dsn'] = 'mysql:host=localhost;dbname=thelinco_hal'; 
-
+$hal->config['database'][0]['dsn'] = 'sqlite:' . HAL_SITE_PATH . '/data/.ht.sqlite';
 
 /**
  * What type of urls should be used?
@@ -58,7 +56,7 @@ $hal->config['create_new_users'] = true;
 /**
  * Define session name
  */
-$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', '__DIR__');
+$hal->config['session_name'] = preg_replace('/[:\.\/-_]/', '', __DIR__);
 $hal->config['session_key']  = 'hal';
 
 
@@ -98,15 +96,17 @@ $hal->config['controllers'] = array(
   'blog'      => array('enabled' => true,'class' => 'BlogController'),
   'page'      => array('enabled' => true,'class' => 'PageController'),
   'user'      => array('enabled' => true,'class' => 'UserController'),
-  'acp'       => array('enabled' => true,'class' => 'AdminPanelController')
-);
+  'acp'       => array('enabled' => true,'class' => 'AdminPanelController'),
+  'module'    => array('enabled' => true,'class' => 'ModulesController')
+  );
 
 /**
  * Settings for the theme.
  */
 $hal->config['theme'] = array(
-  'name'        => 'grid',        // The name of the theme in the theme directory
-  'stylesheet'  => 'style.php',   // Main stylesheet to include in template files
+  'name'        => 'default',        // The name of the theme in the theme directory
+  'stylesheet'  => 'style.css',   // Main stylesheet to include in template files
+  'bsrestyle' => 'css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
   'template_file'   => 'index.tpl.php',   // Default template file, else use default.tpl.php
  // A list of valid theme regions
   'regions' => array('flash','featured-first','featured-middle','featured-last',
@@ -115,13 +115,13 @@ $hal->config['theme'] = array(
     'footer',
   ),
   // Add static entries for use in the template file. 
-  'data' => array(
+  	'data' => array(
     'header' => 'HAL',
     'slogan' => 'A PHP-based MVC-inspired CMF',
     'favicon' => 'logo_80x80.png',
     'logo' => 'logo_80x80.png',
-    'logo_width'  => 80,
-    'logo_height' => 80,
+    'logo_width'  => 40,
+    'logo_height' => 40,
     'footer' => '<p>Hal by Tina Logan based on Lydia &copy; by Mikael Roos (mos@dbwebb.se)</p>',
   ),
 );

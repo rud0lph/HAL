@@ -1,5 +1,7 @@
-<h1>Content</h1>
-<p>Create, edit and view content.</p>
+<div class="page-header">
+  <h1>Content<small> Create, edit and view content</small></h1>
+</div>
+
 
 <h2>All content</h2>
 <?php if($contents != null):?>

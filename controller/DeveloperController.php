@@ -80,7 +80,9 @@ EOD;
 
 		$this->data['title'] = "The Developer Controller";
 		$this->data['main'] = <<<EOD
-<h1>The Developer Controller</h1>
+<div class="page-header">
+  <h1>The Developer Controller</h1>
+</div>
 <p>This is what you can do for now:</p>
 <ul>
 $html

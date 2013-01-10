@@ -33,7 +33,7 @@ class UserController extends Controller implements IController {
   public function Profile() {    
     $form = new FormUserProfile($this, $this->user);
     if($form->Check() === false) {
-      $this->AddMessage('notice', 'Some fields did not validate and the form could not be processed.');
+      $this->AddMessage('error', 'Some fields did not validate and the form could not be processed.');
       $this->RedirectToController('profile');
     }
 
@@ -78,7 +78,7 @@ class UserController extends Controller implements IController {
   public function Login() {
     $form = new FormUserLogin($this);
     if($form->Check() === false) {
-      $this->AddMessage('notice', 'You must fill in acronym and password.');
+      $this->AddMessage('error', 'You must fill in acronym and password.');
       $this->RedirectToController('login');
     }
     $this->views->SetTitle('Login')
@@ -89,6 +89,7 @@ class UserController extends Controller implements IController {
                 ));
   }
   
+
   /**
    * Perform a login of the user as callback on a submitted form.
    */
@@ -97,7 +98,7 @@ class UserController extends Controller implements IController {
       $this->AddMessage('success', "Welcome {$this->user['name']}.");
       $this->RedirectToController('profile');
     } else {
-      $this->AddMessage('notice', "Failed to login, user does not exist or password does not match.");
+      $this->AddMessage('error', "Failed to login, user does not exist or password does not match.");
       $this->RedirectToController('login');      
     }
   }
@@ -118,7 +119,7 @@ class UserController extends Controller implements IController {
   public function Create() {
     $form = new FormUserCreate($this);
     if($form->Check() === false) {
-      $this->AddMessage('notice', 'You must fill in all values.');
+      $this->AddMessage('error', 'You must fill in all values.');
       $this->RedirectToController('Create');
     }
     $this->views->SetTitle('Create user')
@@ -144,7 +145,7 @@ class UserController extends Controller implements IController {
       $this->user->Login($form['acronym']['value'], $form['password']['value']);
       $this->RedirectToController('profile');
     } else {
-      $this->AddMessage('notice', "Failed to create an account.");
+      $this->AddMessage('error', "Failed to create an account.");
       $this->RedirectToController('create');
     }
   }

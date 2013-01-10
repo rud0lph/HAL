@@ -1,4 +1,7 @@
-<h1>User Profile</h1>
+
+<div class="page-header">
+  <h1>User Profile<small> </small></h1>
+</div>
 <p>You can view and update your profile information.</p>
 
 <?php if($is_authenticated): ?>

@@ -38,18 +38,18 @@ class Hal implements ISingleton {
 
 		// Set default date/time-zone
 		date_default_timezone_set('UTC');
-		
-		 // Create a database object.
-      	if(isset($this->config['dsn'])) {
-        	$this->db = new Database($this->config['dsn'], $this->config['username'], $this->config['password']);
-	}
-		
-	// Create a container for all views and theme data
-     	$this->views = new ViewContainer();
-  
-	// Create a object for the user
-  	$this->user = new UserModel($this);
-	}
+
+		// Create a database object.
+		if(isset($this->config['database'][0]['dsn'])) {
+  			$this->db = new Database($this->config['database'][0]['dsn']);
+  		}
+  	
+  		// Create a container for all views and theme data
+  		$this->views = new ViewContainer();
+
+  		// Create a object for the user
+  		$this->user = new UserModel($this);
+  	}
   
   
   /**
@@ -132,6 +132,9 @@ class Hal implements ISingleton {
     
     // Add stylesheet path to the $hal->data array
     $this->data['stylesheet'] = "{$themeUrl}/".$this->config['theme']['stylesheet'];
+	
+	//Add bootstrap-restulkl path to $hal->data array
+	$this->data['bsrestyle'] = "{$themeUrl}/".$this->config['theme']['bsrestyle'];
 
     // Include the global functions.php and the functions.php that are part of the theme
     $hal = &$this;

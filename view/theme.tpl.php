@@ -1,4 +1,8 @@
-<h1>Theme</h1>
+
+<div class="page-header">
+  <h1>Theme<small> This is a helper for css themes</small></h1>
+</div>
+
 <p>This is a helper to aid in theme developing and testing.<p>
 <p>Current theme is: <?=$theme_name?></p>
 <p>Here is a list of helping methods for theme developing and testing.</p>

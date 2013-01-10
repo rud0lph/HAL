@@ -35,7 +35,7 @@ class ContentController extends Controller implements IController {
     $form = new FormContent($content);
     $status = $form->Check();
     if($status === false) {
-      $this->AddMessage('notice', 'The form could not be processed.');
+      $this->AddMessage('error', 'The form could not be processed.');
       $this->RedirectToController('edit', $id);
     } else if($status === true) {
       $this->RedirectToController('edit', $content['id']);
