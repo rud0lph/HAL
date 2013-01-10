@@ -1,8 +1,8 @@
 /**
 * Main stylesheet for theme Grid
 */
-@import url("css/normalize.css");
-@import url("css/bootstrap.css");
+@import url("../../bootstrap/css/normalize.css");
+@import url("../../bootstrap/css/bootstrap.css");
 
 /**
 * Override navbar brand to fit logo

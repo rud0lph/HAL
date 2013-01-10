@@ -66,14 +66,22 @@ class FormElement implements ArrayAccess{
       $messages = "<ul class='validation-message'>\n{$message}</ul>\n";
     }
     
+	//Buttons - change here if you for example want blue buttons (i.e class="btn btn-primary")
     if($type && $this['type'] == 'submit') {
-        return "<p><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></p>\n";
-    } else if($type && $this['type'] == 'textarea') {
-        return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
-    } else if($type && $this['type'] == 'hidden') {
+      return "<span><button {$type}{$name} class='btn'>{$onlyValue}</button> </span>"	; //"<span><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></span>\n";
+    } 
+	//Textarea - change here if you want to modify textarea
+    else if($type && $this['type'] == 'textarea') {
+        return "<label>$label</label><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly} rows='3'></textarea>";//"<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
+    }
+	//Hidden
+     else if($type && $this['type'] == 'hidden') {
         return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
-    } else {
-      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";			  
+    } 
+	//textfield
+     else {
+      return "<label>$label</label><input $id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} >";
+	  //"<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";			  
     }
   }
 
@@ -277,7 +285,7 @@ class Form implements ArrayAccess {
     
     $elements = $this->GetHTMLForElements();
     $html = <<< EOD
-\n<form{$id}{$class}{$name}{$action}{$method}>
+\n<form{$id}{$name}{$action}{$method}>
 <fieldset>
 {$elements}
 </fieldset>
@@ -292,7 +300,17 @@ EOD;
    */
   public function GetHTMLForElements() {
     $html = null;
+
+    $buttonbar = null;
     foreach($this->elements as $element) {
+      // Wrap buttons in buttonbar.
+      if(!$buttonbar && $element['type'] == 'submit') {
+        $buttonbar = true;
+        $html .= '<p>';
+      } else if($buttonbar && $element['type'] != 'submit') {
+        $buttonbar = false;
+        $html .= '</p>';
+      }
       $html .= $element->GetHTML();
     }
     return $html;
