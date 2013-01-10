@@ -161,7 +161,7 @@ $hal->config['theme'] = array(
   //'path'            => 'themes/default/',
   'parent'          => 'themes/default/',
   'stylesheet'  => 'style.css',
-  'bsrestyle' => 'bootstrap/css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
+  'bsrestyle' =>  'bootstrap/css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
   'template_file'   => 'index.tpl.php',
   'regions' => array('navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',

@@ -75,7 +75,8 @@ class FormMyGuestbook extends Form {
   public function __construct($object) {
     parent::__construct();
     $this->objecyt = $object;
-    $this->AddElement(new FormElementTextarea('data', array('label'=>'Add entry:')))
+    $this->AddElement(new FormElementText('name', array('label'=>'Add Name:')))
+		 ->AddElement(new FormElementTextarea('entry', array('label'=>'Add entry:')))
          ->AddElement(new FormElementSubmit('add', array('callback'=>array($this, 'DoAdd'), 'callback-args'=>array($object))));
   }
   
@@ -84,7 +85,7 @@ class FormMyGuestbook extends Form {
    * Callback to add the form content to database.
    */
   public function DoAdd($form, $object) {
-    return $object->Add(strip_tags($form['data']['value']));
+    return $object->Add(strip_tags($form['name']['value']), strip_tags($form['entry']['value'])); // strip_tags($_POST['newName']), strip_tags($_POST['newEntry']
   }
  
  

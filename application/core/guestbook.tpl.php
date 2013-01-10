@@ -1,13 +1,22 @@
-<h1>My Guestbook</h1>
-<p>Leave a message and be happy.</p>
+
+<div class="page-header">
+  <h1>My Guestbook<small> Leave a message</small></h1>
+</div>
+
 
 <?=$form->GetHTML()?>
 
-<h2>Latest messages</h2>
+<div class="page-header">
+  <h2>Current messages</h2>
+</div>
 
-<?php foreach($entries as $val):?>
-<div style='background-color:#f6f6f6;border:1px solid #ccc;margin-bottom:1em;padding:1em;'>
-  <p>At: <?=$val['created']?></p>
+<?php
+ foreach($entries as $val):?>
+<div class = well>
+  <p>
+  <strong><?=htmlent($val['name'])?></strong>
+  <br /><small><?=$val['created']?></small>
+  </p>
   <p><?=htmlent($val['entry'])?></p>
 </div>
-<?php endforeach;?>
+<?php endforeach;

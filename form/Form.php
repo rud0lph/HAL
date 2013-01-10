@@ -66,21 +66,22 @@ class FormElement implements ArrayAccess{
       $messages = "<ul class='validation-message'>\n{$message}</ul>\n";
     }
     
-//BUTTONS
+	//Buttons - change here if you for example want blue buttons (i.e class="btn btn-primary")
     if($type && $this['type'] == 'submit') {
-      return "<span><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></span>\n";
+      return "<span><button {$type}{$name} class='btn'>{$onlyValue}</button> </span>"	; //"<span><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} /></span>\n";
     } 
-//TEXTAREA
+	//Textarea - change here if you want to modify textarea
     else if($type && $this['type'] == 'textarea') {
-        return "<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
+        return "<label>$label</label><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly} rows='3'></textarea>";//"<p><label for='$id'>$label</label><br><textarea id='$id'{$type}{$class}{$name}{$autofocus}{$readonly}>{$onlyValue}</textarea></p>\n"; 
     }
-//HIDDEN 
+	//Hidden
      else if($type && $this['type'] == 'hidden') {
         return "<input id='$id'{$type}{$class}{$name}{$value} />\n"; 
     } 
-//LABEL
+	//textfield
      else {
-      return "<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";			  
+      return "<label>$label</label><input $id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} >";
+	  //"<p><label for='$id'>$label</label><br><input id='$id'{$type}{$class}{$name}{$value}{$autofocus}{$readonly} />{$messages}</p>\n";			  
     }
   }
 
@@ -284,7 +285,7 @@ class Form implements ArrayAccess {
     
     $elements = $this->GetHTMLForElements();
     $html = <<< EOD
-\n<form{$id}{$class}{$name}{$action}{$method}>
+\n<form{$id}{$name}{$action}{$method}>
 <fieldset>
 {$elements}
 </fieldset>
@@ -299,7 +300,7 @@ EOD;
    */
   public function GetHTMLForElements() {
     $html = null;
-//MORE BUTTON STUFF
+
     $buttonbar = null;
     foreach($this->elements as $element) {
       // Wrap buttons in buttonbar.
