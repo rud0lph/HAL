@@ -1,28 +1,29 @@
 <?php
 /**
-* Standard controller layout.
-* 
-* @package HalCore
-*/
-class IndexController implements IController {
+ * Standard controller layout.
+ * 
+ * @package HalCore
+ */
+class IndexController extends Controller implements IController {
 
-   /**
-    * Implementing interface IController. All controllers must have an index action.
-    */
-   public function Index() {   
-      global $hal;
-      $hal->data['title'] = "Welcome to HAL";
-	  $hal->data['main'] = <<<EOD
-<p><strong>HAL:</strong> I am putting myself to the fullest possible use, which is all I think that any conscious entity can ever hope to do. </p>
-<p><a href="http://thelincolncircus.com/test/hal/source.php">View source</a></p>
-<p></p>
-<p></p>
-          
-          
-            
-EOD;
-
-   }
-   
+  /**
+   * Constructor
+   */
+  public function __construct() {
+    parent::__construct();
+  }
   
-}
+
+  /**
+   * Implementing interface IController. All controllers must have an index action.
+   */
+  public function Index() {			
+    $modules = new ModulesModel();
+    $controllers = $modules->AvailableControllers();
+    $this->views->SetTitle('Index')
+                ->AddInclude(HAL_INSTALL_PATH . '/view/index.tpl.php', array(), 'primary')
+                ->AddInclude(HAL_INSTALL_PATH . '/view/indexsidebar.tpl.php', array('controllers'=>$controllers), 'sidebar');
+  }
+
+
+} 
