@@ -309,7 +309,7 @@ EOD;
         $html .= '<p>';
       } else if($buttonbar && $element['type'] != 'submit') {
         $buttonbar = false;
-        $html .= '</p>\n';
+        $html .= '</p>';
       }
       $html .= $element->GetHTML();
     }
