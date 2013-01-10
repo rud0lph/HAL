@@ -3,16 +3,16 @@
 <head>
   <meta charset='utf-8'/>
   <title><?=$title?></title>
-	<link rel='shortcut icon' href='<?=$favicon?>'/>
+  <link rel='shortcut icon' href='<?=theme_url($favicon)?>'/>
     <!-- Le styles -->
-    <link rel='stylesheet' href='<?=$stylesheet?>'/>
+  <link rel='stylesheet' href='<?=theme_url($stylesheet)?>'/>
     <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
     </style>
-    <link rel='stylesheet' href='<?=$bsrestyle?>'/>
+    <link rel='stylesheet' href='<?=theme_url($bsrestyle)?>'/>
  
 </head>
 
@@ -44,6 +44,10 @@
     </div>
 
     <div class="container">
+
+      <?php if(region_has_content('navbar')): ?>
+      <div id='navbar'><?=render_views('navbar')?></div>
+      <?php endif; ?>
      
       <!-- Region 1, "flash", kollar om den har ett innehåll, om ja visa om nej, visa inte -->
       <?php if(region_has_content('featured-first')): ?>

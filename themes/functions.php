@@ -107,19 +107,14 @@ function login_menu() {
   if($hal->user['isAuthenticated']) {
     $items = "<a href='". create_url('user/profile') . "'><img class='gravatar' src='" . get_gravatar(40) . "' class='img-polaroid'> " . $hal->user['acronym'] . "</a> ";
     
-	if($hal->user['hasRoleAdministrator']) {
+if($hal->user['hasRoleAdministrator']) {
       $items .= "<a href='" . create_url('acp') . "'>acp</a> ";
     }
-	//LOGOUT BUTTON
     $items .= "<a href='" . create_url('user/logout') . "'>logout</a> ";
-	//$items .= "<a href='" . create_url('user/logout') . "' class='btn btn-primary'><small>logout</small></a>";
   } else {
-    //LOGIN BUTTON
+
     $items = "<a href='" . create_url('user/login') . "'>login</a> ";
-	//$items = "<a href='" . create_url('user/login') . "' class='btn btn-primary' pull-right><small>login</small></a>";
   }
-  
-  
   return "$items";
 }
 
@@ -182,16 +177,29 @@ function base_url($url=null) {
  * @param string the extra arguments to the method, leave empty if not using method.
  */
 function create_url($urlOrController=null, $method=null, $arguments=null) {
-  return Hal::Instance()->request->CreateUrl($urlOrController, $method, $arguments);
+  return Hal::Instance()->CreateUrl($urlOrController, $method, $arguments);
 }
 
 
 /**
  * Prepend the theme_url, which is the url to the current theme directory.
+ *
+ * @param $url string the url-part to prepend.
+ * @returns string the absolute url.
  */
 function theme_url($url) {
-  $hal = Hal::Instance();
-  return "{$hal->request->base_url}themes/{$hal->config['theme']['name']}/{$url}";
+  return create_url(Hal::Instance()->themeUrl . "/{$url}");
+}
+
+
+/**
+ * Prepend the theme_parent_url, which is the url to the parent theme directory.
+ *
+ * @param $url string the url-part to prepend.
+ * @returns string the absolute url.
+ */
+function theme_parent_url($url) {
+  return create_url(Hal::Instance()->themeParentUrl . "/{$url}");
 }
 
 
