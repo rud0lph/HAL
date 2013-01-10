@@ -98,7 +98,7 @@ $hal->config['controllers'] = array(
   'user'      => array('enabled' => true,'class' => 'UserController'),
   'acp'       => array('enabled' => true,'class' => 'AdminPanelController'),
   'module'    => array('enabled' => true,'class' => 'ModulesController'),
-  'my'        => array('enabled' => false,'class' => 'CCMycontroller'),
+  'my'        => array('enabled' => true,'class' => 'CCMycontroller'),
 );
 
 /**
@@ -157,11 +157,11 @@ $hal->config['menus'] = array(
  * available to the template files.
  */
 $hal->config['theme'] = array(
-  //'path'            => 'site/themes/mytheme',
-  'path'            => 'themes/grid/',
-  //'parent'          => 'themes/grid/',
+  'path'            => 'application/themes/mytheme',
+  //'path'            => 'themes/default/',
+  'parent'          => 'themes/default/',
   'stylesheet'  => 'style.css',
-  'bsrestyle' => 'css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
+  'bsrestyle' =>  'bootstrap/css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
   'template_file'   => 'index.tpl.php',
   'regions' => array('navbar', 'flash','featured-first','featured-middle','featured-last',
     'primary','sidebar','triptych-first','triptych-middle','triptych-last',

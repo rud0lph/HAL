@@ -24,7 +24,8 @@ class FormContent extends Form {
          ->AddElement(new FormElementTextarea('data', array('label'=>'Content:', 'value'=>$content['data'])))
          ->AddElement(new FormElementText('type', array('value'=>$content['type'])))
          ->AddElement(new FormElementText('filter', array('value'=>$content['filter'])))
-         ->AddElement(new FormElementSubmit($save, array('callback'=>array($this, 'DoSave'), 'callback-args'=>array($content))));
+         ->AddElement(new FormElementSubmit($save, array('callback'=>array($this, 'DoSave'), 'callback-args'=>array($content))))
+         ->AddElement(new FormElementSubmit('delete', array('callback'=>array($this, 'DoDelete'), 'callback-args'=>array($content))));
 
     $this->SetValidation('title', array('not_empty'))
          ->SetValidation('key', array('not_empty'));
@@ -42,6 +43,16 @@ class FormContent extends Form {
     $content['type']   = $form['type']['value'];
     $content['filter'] = $form['filter']['value'];
     return $content->Save();
+  }
+  
+  
+  /**
+   * Callback to delete the content.
+   */
+  public function DoDelete($form, $content) {
+    $content['id'] = $form['id']['value'];
+    $content->Delete();
+    Hal::Instance()->RedirectTo('content');
   }
   
   
