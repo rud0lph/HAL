@@ -1,7 +1,14 @@
 <?php if($content['id']):?>
-  <h1><?=esc($content['title'])?></h1>
+  
+  <div class="page-header">
+  	<h1><?=esc($content['title'])?><small></small></h1>
+  </div>
+
   <p><?=$content->GetFilteredData()?></p>
-  <p class='smaller-text silent'><a href='<?=create_url("content/edit/{$content['id']}")?>'>edit</a> <a href='<?=create_url("content")?>'>view all</a></p>
+  <p>
+  <a class="btn btn-mini" href='<?=create_url("content/edit/{$content['id']}")?>'><i class="icon-pencil"></i> Edit</a> 
+  <a class="btn btn-mini" href='<?=create_url("content")?>'><i class="icon-eye-open"></i> View all</a>
+  </p>
 <?php else:?>
   <p>404: No such page exists.</p>
 <?php endif;?>
