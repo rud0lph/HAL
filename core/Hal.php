@@ -264,27 +264,32 @@ class Hal implements ISingleton {
   }
 
 
-  /**
+ /**
    * Draw HTML for a menu defined in $hal->config['menus'].
    *
    * @param $menu string then key to the menu in the config-array.
    * @returns string with the HTML representing the menu.
    */
+ 
+  
   public function DrawMenu($menu) {
     $items = null;
     if(isset($this->config['menus'][$menu])) {
+		
+		//Loopar igenom menyn
       foreach($this->config['menus'][$menu] as $val) {
+		  
         $selected = null;
         if($val['url'] == $this->request->request || $val['url'] == $this->request->routed_from) {
-          $selected = " class='selected'";
+          $selected = " class='active'"; //active menu item
         }
-        $items .= "<li><a {$selected} href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
+        $items .= "<li {$selected} ><a  href='" . $this->CreateUrl($val['url']) . "'>{$val['label']}</a></li>\n";
       }
     } else {
       throw new Exception('No such menu.');
     }     
-    return "<ul class='menu {$menu}'>\n{$items}</ul>\n";
+    return "<ul class='nav {$menu}'>\n{$items}</ul>\n";
   }
-
-
 }
+
+

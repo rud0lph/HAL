@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/** 
+ * Description: Sample theme for site which extends the Hal defult-theme.
+ */
+@import url(../../../themes/default/style.css);
+
+/*html{background-color:#eef9c8;}*/
+body{background-color:#eef9c8;}

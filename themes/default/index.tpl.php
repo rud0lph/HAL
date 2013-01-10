@@ -12,7 +12,7 @@
         padding-bottom: 40px;
       }
     </style>
-    <link rel='stylesheet' href='<?=theme_url($bsrestyle)?>'/>
+    <link rel='stylesheet' href='<?=$bsrestyle?>'/>
  
 </head>
 
@@ -27,16 +27,17 @@
             	<span class="icon-bar"></span>
             	<span class="icon-bar"></span>
             </a>
+            
           	<a class="brand pull-left" href='<?=base_url()?>'><img src='<?=theme_url($logo)?>' alt='logo' width='<?=$logo_width?>' height='<?=$logo_height?>'/ ><?=$header?></a>
           
           	<div class="nav-collapse collapse">
-            	<ul class="nav">
-              		<li <?php if (current_url() == base_url()) {echo 'class="active"';} ?>><a href=<?=base_url()?>>Home</a></li>
-              		<li <?php if (current_url() == base_url() . "content") {echo 'class="active"';} ?>><a href="<?=base_url()?>content">Content</a></li>
-              		<li <?php if (current_url() == base_url() . "guestbook") {echo 'class="active"';} ?>><a href="<?=base_url()?>guestbook">Guestbook</a></li>
-            	</ul>
-           <form class="navbar-form pull-right">
-            <?=login_menu()?>
+            	
+                	<ul class="nav">
+            			<?=render_views('navbar')?>
+                	</ul>
+                
+            <form class="navbar-form pull-right">
+            	<?=login_menu()?>
             </form>
           </div><!--/.nav-collapse -->
         </div>
@@ -44,10 +45,6 @@
     </div>
 
     <div class="container">
-
-      <?php if(region_has_content('navbar')): ?>
-      <div id='navbar'><?=render_views('navbar')?></div>
-      <?php endif; ?>
      
       <!-- Region 1, "flash", kollar om den har ett innehåll, om ja visa om nej, visa inte -->
       <?php if(region_has_content('featured-first')): ?>
@@ -137,8 +134,8 @@
      <!-- Le javascript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="js/jquery-1.8.3.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="../../bootstrap/js/jquery-1.8.3.min.js"></script>
+        <script src="../../bootstrap/js/bootstrap.min.js"></script>
        
   </body>
 </html>
