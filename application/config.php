@@ -98,7 +98,6 @@ $hal->config['controllers'] = array(
   'user'      => array('enabled' => true,'class' => 'UserController'),
   'acp'       => array('enabled' => true,'class' => 'AdminPanelController'),
   'module'    => array('enabled' => true,'class' => 'ModulesController'),
-  'my'        => array('enabled' => true,'class' => 'CCMycontroller'),
 );
 
 /**
@@ -117,18 +116,18 @@ $hal->config['routing'] = array(
  * Create hardcoded menus and map them to a theme region through $hal->config['theme'].
  */
 $hal->config['menus'] = array(
-  'navbar' => array(
+  'my-navbar' => array(
     'home'      => array('label'=>'Home', 'url'=>'home'),
     'modules'   => array('label'=>'Modules', 'url'=>'module'),
     'content'   => array('label'=>'Content', 'url'=>'content'),
     'guestbook' => array('label'=>'Guestbook', 'url'=>'guestbook'),
     'blog'      => array('label'=>'Blog', 'url'=>'blog'),
   ),
-  'my-navbar' => array(
+  /*'my-navbar' => array(
     'home'      => array('label'=>'About Me', 'url'=>'my'),
     'blog'      => array('label'=>'My Blog', 'url'=>'my/blog'),
     'guestbook' => array('label'=>'Guestbook', 'url'=>'my/guestbook'),
-  ),
+  ),*/
 );
 
 
@@ -157,9 +156,9 @@ $hal->config['menus'] = array(
  * available to the template files.
  */
 $hal->config['theme'] = array(
-  'path'            => 'application/themes/mytheme',
-  //'path'            => 'themes/default/',
-  'parent'          => 'themes/default/',
+  //'path'            => 'application/themes/mytheme',
+  'path'            => 'themes/default',
+  'parent'          => 'themes/default',
   'stylesheet'  => 'style.css',
   'bsrestyle' =>  'bootstrap/css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
   'template_file'   => 'index.tpl.php',
