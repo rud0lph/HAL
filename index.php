@@ -5,7 +5,6 @@
 //
 define('HAL_INSTALL_PATH', dirname(__FILE__));
 define('HAL_SITE_PATH', HAL_INSTALL_PATH . '/application');
-define('HAL_SITE_PATH', HAL_INSTALL_PATH . '/controller');
 
 require(HAL_INSTALL_PATH.'/bootstrap.php');
 
