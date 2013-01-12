@@ -1,4 +1,6 @@
-HAL is a PHP-based, MVC-inspired CMF based on the framework Lydia.
+#HAL 
+
+Hal is a PHP-based, MVC-inspired CMF based on the framework Lydia.
 
 It is a project buildt by Tina Logan when taking the class "PHP-programming with Model View Controller (MVC) frameworks" at BTH.se
 
@@ -12,22 +14,18 @@ HAL is licenses according to MIT-license. Any included external modules are subj
 
 
 
-=================================================================================================
 
-INSTALL HAL
+##INSTALL HAL
 
-=================================================================================================
-
-Download
+####Download
 You can download HALfrom GitHub.
 
- git clone git://github.com/tinalogan/HAL.git
+git clone git://github.com/tinalogan/HAL.git  
 You can review its source directly on GitHub: https://github.com/tinalogan/HAL
 
-Installation
-After you have downloaded HAL you have to make the data directory writable. 
-
- chmod 777 hal/application/data
+####Installation
+After you have downloaded HAL you  to make the data directory writable.  
+ ´chmod 777 hal/application/data
 
 After you succesfully installed HAL on your domain point your browser to where you installed HAL. 
 Here you should be able to see the IndexController, if not you might need to do some modifications in your .htaccess file.
