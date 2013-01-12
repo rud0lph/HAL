@@ -38,4 +38,19 @@ class ModulesController extends Controller implements IController {
   }
 
 
+  /**
+   * Show a module and its parts.
+   */
+  public function View($module) {
+    //if(!preg_match('/^C[a-zA-Z]+$/', $module)) {throw new Exception('Invalid characters in module name.');}
+    $modules = new ModulesModel();
+    $controllers = $modules->AvailableControllers();
+    $allModules = $modules->ReadAndAnalyse();
+    $aModule = $modules->ReadAndAnalyseModule($module);
+    $this->views->SetTitle('Manage Modules')
+                ->AddInclude(HAL_INSTALL_PATH . '/view/modulesview.tpl.php', array('module'=>$aModule), 'primary')
+                ->AddInclude(HAL_INSTALL_PATH . '/view/modulessidebar.tpl.php', array('modules'=>$allModules), 'sidebar');
+  }
+
+
 }
