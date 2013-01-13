@@ -123,6 +123,7 @@ $hal->config['menus'] = array(
     'guestbook' => array('label'=>'Guestbook', 'url'=>'guestbook'),
     'blog'      => array('label'=>'Blog', 'url'=>'blog'),
   ),
+  // This is an other menu that can override the first one, configure it the way you want it
   /*'my-navbar' => array(
     'home'      => array('label'=>'About Me', 'url'=>'my'),
     'blog'      => array('label'=>'My Blog', 'url'=>'my/blog'),
@@ -156,10 +157,10 @@ $hal->config['menus'] = array(
  * available to the template files.
  */
 $hal->config['theme'] = array(
-  //'path'            => 'application/themes/mytheme',
+  //'path'            => 'application/themes/mytheme', <-- example of own theme, if you use this comment out the other 'path' parameter
   'path'            => 'themes/default',
-  'parent'          => 'themes/default',
-  'stylesheet'  => 'style.css',
+  'parent'          => 'themes/default', //parent theme that your own theme might inherit from
+  'stylesheet'  => 'style.css', //The main style sheet 
   'bsrestyle' =>  'bootstrap/css/bootstrap-responsive.css', //bootstrap-repsponive stylesheet
   'template_file'   => 'index.tpl.php',
   'regions' => array('navbar', 'flash','featured-first','featured-middle','featured-last',
@@ -173,8 +174,8 @@ $hal->config['theme'] = array(
     'slogan' => 'A PHP-based MVC-inspired CMF',
     'favicon' => 'logo_80x80.png',
     'logo' => 'logo_80x80.png',
-    'logo_width'  => 40,
-    'logo_height' => 40,
-    'footer' => '<p>Hal &copy; by Tina Logan based on Lydia &copy; by Mikael Roos (mos@dbwebb.se)</p>',
+    'logo_width'  => 40, //default 40 in order to fit with the default twitter bootstrap nav-bar
+    'logo_height' => 40, //default 40 in order to fit with the default twitter bootstrap nav-bar
+    'footer' => '<p>Hal &copy; by Tina Logan (based on Lydia &copy; by Mikael Roos)</p>',
   ),
 );
