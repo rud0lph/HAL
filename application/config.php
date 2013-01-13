@@ -98,6 +98,7 @@ $hal->config['controllers'] = array(
   'user'      => array('enabled' => true,'class' => 'UserController'),
   'acp'       => array('enabled' => true,'class' => 'AdminPanelController'),
   'module'    => array('enabled' => true,'class' => 'ModulesController'),
+  //'my'    => array('enabled' 	 => true,'class' => 'CCMycontroller'), // <-- This is an example controller, try it out!
 );
 
 /**
@@ -157,7 +158,7 @@ $hal->config['menus'] = array(
  * available to the template files.
  */
 $hal->config['theme'] = array(
-  //'path'            => 'application/themes/mytheme', <-- example of own theme, if you use this comment out the other 'path' parameter
+  //'path'            => 'application/themes/mytheme',// <-- example of own theme, if you use this comment out the other 'path' parameter
   'path'            => 'themes/default',
   'parent'          => 'themes/default', //parent theme that your own theme might inherit from
   'stylesheet'  => 'style.css', //The main style sheet 
